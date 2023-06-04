@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ingliz_tili/bloc/bloc/test_bloc.dart';
+import 'package:ingliz_tili/screen/nav_bar/home.dart';
 
 import 'screen/home_page.dart';
 
@@ -33,7 +34,7 @@ class _MyAppState extends State<MyApp> {
       ),
       home: BlocProvider(
         create: (context) => testBloc,
-        child: const MyHomePage(),
+        child: const Home(),
       ),
     );
   }

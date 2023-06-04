@@ -11,6 +11,7 @@ part 'test_event.dart';
 part 'test_state.dart';
 
 class TestBloc extends Bloc<TestEvent, TestState> {
+  bool startTest = false;
   List<Dicionary> dicionary = [];
   late ObjectBox objectBox;
   late Box<Dicionary> box;
@@ -22,21 +23,31 @@ class TestBloc extends Bloc<TestEvent, TestState> {
       openBox = false;
     }
     on<NewTestEvent>((event, emit) {
-      print('object');
-      print("${event.answer}  ${currentTest.uz}");
-      if (event.answer == currentTest.uz) {
+      if (startTest) {
+        if (validat(event.answer) == currentTest.uz) {
+          currentTest = randomTest(dicionary);
+          emit(AllDictionaryState(dicionary: currentTest));
+        } else {}
+      } else {
         currentTest = randomTest(dicionary);
-        print("${currentTest.uz} ${randomTest(dicionary).uz}");
         emit(AllDictionaryState(dicionary: currentTest));
+        startTest = true;
       }
     });
     on<AddDictionaryEvent>((event, emit) {
-      box.put(Dicionary(uz: event.dicionary.uz, ing: event.dicionary.ing));
-      print(box.getAll().length);
+      box.put(
+        Dicionary(
+          uz: validat(event.dicionary.uz),
+          ing: validat(event.dicionary.ing),
+        ),
+      );
       updateList();
-      print(box.getAll().length);
-
     });
+  }
+  String validat(String text) {
+    text.toLowerCase();
+    text.trim();
+    return text;
   }
 
   void updateList() {
@@ -54,8 +65,5 @@ class TestBloc extends Bloc<TestEvent, TestState> {
     objectBox = await ObjectBox.create();
     box = objectBox.store.box<Dicionary>();
     dicionary = box.getAll();
-    if (dicionary.isNotEmpty) {
-      add(NewTestEvent(answer: ''));
-    }
   }
 }
