@@ -53,8 +53,8 @@ class _HomeState extends State<Home> {
                 title: const Text('Task'),
               ),
               FlashyTabBarItem(
-                icon: const Icon(Icons.person),
-                title: const Text('Profile'),
+                icon: const Icon(Icons.border_all_rounded),
+                title: const Text('Barchasi'),
               ),
             ],
           ),

@@ -2,36 +2,76 @@ import 'dart:math';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:ingliz_tili/stateStatus.dart';
+import 'package:meta/meta.dart';
+
 import 'package:ingliz_tili/db/dictionary.dart';
 import 'package:ingliz_tili/db/objectbox.dart';
 import 'package:ingliz_tili/objectbox.g.dart';
-import 'package:meta/meta.dart';
 
 part 'test_event.dart';
 part 'test_state.dart';
 
 class TestBloc extends Bloc<TestEvent, TestState> {
+  bool isInlish = true;
   bool startTest = false;
   List<Dicionary> dicionary = [];
   late ObjectBox objectBox;
   late Box<Dicionary> box;
   Dicionary currentTest = Dicionary(uz: '', ing: '');
   bool openBox = true;
+  void noStart() {
+    startTest = false;
+    print("START: $startTest");
+  }
+
   TestBloc() : super(TestInitial()) {
     if (openBox) {
       instanse();
       openBox = false;
     }
-    on<NewTestEvent>((event, emit) {
+    on<DeleteDictionaryEvent>((event, emit) {
+      dicionary.removeAt(event.id);
+      box.removeAll();
+      for (int i = 0; i < dicionary.length; i++) {
+        box.put(Dicionary(uz: dicionary[i].uz, ing: dicionary[i].ing));
+      }
+
+      emit(DicionaryListState(dicionaryList: dicionary));
+    });
+    on<ControllerTilEvent>((event, emit) {
+      isInlish = !isInlish;
+      startTest = false;
+      add(NewTestEvent(answer: ''));
+    });
+    on<AllDictionaryEvent>((event, emit) {
+      emit(
+        DicionaryListState(dicionaryList: dicionary),
+      );
+    });
+    on<NewTestEvent>((event, emit) async {
       if (startTest) {
-        if (validat(event.answer) == currentTest.uz) {
+        if (validat(event.answer) ==
+            (isInlish ? currentTest.uz : currentTest.ing)) {
+          emit(DoneState());
+          await Future.delayed(const Duration(seconds: 1));
           currentTest = randomTest(dicionary);
-          emit(AllDictionaryState(dicionary: currentTest));
-        } else {}
+          emit(DictionaryState(
+              dicionary: currentTest, stateStatus: StateStatus.loaded));
+        } else {
+          emit(DictionaryState(
+              dicionary: currentTest,
+              stateStatus: StateStatus.loaded,
+              error: "Xato"));
+        }
       } else {
-        currentTest = randomTest(dicionary);
-        emit(AllDictionaryState(dicionary: currentTest));
-        startTest = true;
+        if (dicionary.isNotEmpty) {
+          currentTest = randomTest(dicionary);
+          emit(DictionaryState(dicionary: currentTest));
+          startTest = true;
+        } else {
+          emit(ErrorState());
+        }
       }
     });
     on<AddDictionaryEvent>((event, emit) {

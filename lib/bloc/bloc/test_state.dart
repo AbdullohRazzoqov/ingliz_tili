@@ -6,11 +6,23 @@ abstract class TestState {}
 
 class TestInitial extends TestState {}
 
-class AllDictionaryState extends TestState {
-  List<Dicionary> dicionaryList;
-  Dicionary? dicionary;
-  AllDictionaryState({
-    this.dicionaryList = const [],
-    this.dicionary,
+class DictionaryState extends TestState {
+  final StateStatus stateStatus;
+  final String error;
+  final Dicionary dicionary;
+  DictionaryState(
+      {required this.dicionary,
+      this.stateStatus = StateStatus.normal,
+      this.error = ''});
+}
+
+class DicionaryListState extends TestState {
+  final List<Dicionary> dicionaryList;
+  DicionaryListState({
+    required this.dicionaryList,
   });
 }
+
+class ErrorState extends TestState {}
+
+class DoneState extends TestState {}

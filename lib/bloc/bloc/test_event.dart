@@ -8,7 +8,7 @@ abstract class TestEvent extends Equatable {
 }
 
 class AddDictionaryEvent extends TestEvent {
-  Dicionary dicionary;
+ final Dicionary dicionary;
   AddDictionaryEvent({
     required this.dicionary,
   });
@@ -20,8 +20,20 @@ class AddDictionaryEvent extends TestEvent {
 class AllInstanseEvent extends TestEvent {}
 
 class NewTestEvent extends TestEvent {
-  String answer;
+ final String answer;
   NewTestEvent({
     required this.answer,
   });
 }
+
+class AllDictionaryEvent extends TestEvent {}
+
+class DeleteDictionaryEvent extends TestEvent {
+ final
+  int id;
+  DeleteDictionaryEvent({
+    required this.id,
+  });
+}
+
+class ControllerTilEvent extends TestEvent {}
