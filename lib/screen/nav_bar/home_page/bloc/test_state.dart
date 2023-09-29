@@ -2,11 +2,11 @@
 part of 'test_bloc.dart';
 
 @immutable
-abstract class TestState {}
+abstract class HomePageState {}
 
-class TestInitial extends TestState {}
+class TestInitial extends HomePageState {}
 
-class DictionaryState extends TestState {
+class DictionaryState extends HomePageState {
   final StateStatus stateStatus;
   final String error;
   final Dicionary dicionary;
@@ -16,13 +16,13 @@ class DictionaryState extends TestState {
       this.error = ''});
 }
 
-class DicionaryListState extends TestState {
+class DicionaryListState extends HomePageState {
   final List<Dicionary> dicionaryList;
   DicionaryListState({
     required this.dicionaryList,
   });
 }
 
-class ErrorState extends TestState {}
+class ErrorState extends HomePageState {}
 
-class DoneState extends TestState {}
+class DoneState extends HomePageState {}

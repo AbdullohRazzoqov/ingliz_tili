@@ -1,8 +1,8 @@
 import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
 import 'package:flutter/material.dart';
-import 'package:ingliz_tili/screen/nav_bar/home_page.dart';
-import 'package:ingliz_tili/screen/nav_bar/profile_page.dart';
-import 'package:ingliz_tili/screen/nav_bar/task_page.dart';
+import 'package:ingliz_tili/screen/nav_bar/home_page/home_page.dart';
+import 'package:ingliz_tili/screen/nav_bar/profile_page/profile_page.dart';
+import 'package:ingliz_tili/screen/nav_bar/all_task_page/task_page.dart';
 import 'package:ingliz_tili/utils/color.dart';
 
 class Home extends StatefulWidget {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ingliz_tili/bloc/bloc/test_bloc.dart';
+import 'package:ingliz_tili/screen/nav_bar/home_page/bloc/test_bloc.dart';
 import 'package:ingliz_tili/utils/color.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -13,8 +13,8 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
-    context.read<TestBloc>().add(AllDictionaryEvent());
-    context.read<TestBloc>().noStart();
+    context.read<HomePageBloc>().add(AllDictionaryEvent());
+    context.read<HomePageBloc>().noStart();
     super.initState();
   }
 
@@ -22,7 +22,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.color,
-      body: BlocBuilder<TestBloc, TestState>(
+      body: BlocBuilder<HomePageBloc, HomePageState>(
         builder: (context, state) {
           if (state is DicionaryListState) {
             return state.dicionaryList.isNotEmpty
@@ -49,7 +49,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           trailing: GestureDetector(
                               onTap: () {
                                 context
-                                    .read<TestBloc>()
+                                    .read<HomePageBloc>()
                                     .add(DeleteDictionaryEvent(id: index));
                               },
                               child: const Icon(Icons.delete)),

@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:ingliz_tili/stateStatus.dart';
@@ -12,7 +11,7 @@ import 'package:ingliz_tili/objectbox.g.dart';
 part 'test_event.dart';
 part 'test_state.dart';
 
-class TestBloc extends Bloc<TestEvent, TestState> {
+class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
   bool isInlish = true;
   bool startTest = false;
   List<Dicionary> dicionary = [];
@@ -22,10 +21,9 @@ class TestBloc extends Bloc<TestEvent, TestState> {
   bool openBox = true;
   void noStart() {
     startTest = false;
-    print("START: $startTest");
   }
 
-  TestBloc() : super(TestInitial()) {
+  HomePageBloc() : super(TestInitial()) {
     if (openBox) {
       instanse();
       openBox = false;
@@ -42,14 +40,14 @@ class TestBloc extends Bloc<TestEvent, TestState> {
     on<ControllerTilEvent>((event, emit) {
       isInlish = !isInlish;
       startTest = false;
-      add(NewTestEvent(answer: ''));
+      add(NewHomePageEvent(answer: ''));
     });
     on<AllDictionaryEvent>((event, emit) {
       emit(
         DicionaryListState(dicionaryList: dicionary),
       );
     });
-    on<NewTestEvent>((event, emit) async {
+    on<NewHomePageEvent>((event, emit) async {
       if (startTest) {
         if (validat(event.answer) ==
             (isInlish ? currentTest.uz : currentTest.ing)) {
@@ -85,9 +83,10 @@ class TestBloc extends Bloc<TestEvent, TestState> {
     });
   }
   String validat(String text) {
-    text.toLowerCase();
-    text.trim();
-    return text;
+    String myText = text;
+    myText = myText.toLowerCase();
+    myText = myText.trim();
+    return myText;
   }
 
   void updateList() {
